@@ -2,12 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct bst_node {
-    void *data;
-    struct bst_node *left;
-    struct bst_node *right;
-};
-
 bst_node_t* create_node(void *data) {
     bst_node_t *new_node = (bst_node_t *)malloc(sizeof(bst_node_t));
     if (new_node == NULL)
