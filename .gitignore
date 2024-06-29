@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# Unit test output
+bst_test
+
 # Object files
 *.o
 *.ko

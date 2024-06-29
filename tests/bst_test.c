@@ -127,7 +127,6 @@ int main()
     CU_pSuite insertion = CU_add_suite("Insertion", NULL, NULL);
     CU_pSuite search = CU_add_suite("Search", NULL, NULL);
     CU_pSuite deletion = CU_add_suite("Deletion", NULL, NULL);
-    CU_pSuite edge_cases = CU_add_suite("Edge Cases", NULL, NULL);
     
     CU_add_test(insertion, "Insert single item", test_insert_and_search_single_item);
     CU_add_test(insertion, "Insert duplicate IDs", test_insert_duplicate_ids);

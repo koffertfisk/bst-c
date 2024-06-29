@@ -15,8 +15,15 @@
  * @author Marcus Enderskog
  */
 
-/// @brief BST node structure for holding generic data items.
+/// @brief BST node structure type definition for holding generic data items.
 typedef struct bst_node bst_node_t;
+
+/// @brief BST node structure type definition for holding generic data items.
+struct bst_node {
+    void *data;             // Data contained within the node.
+    struct bst_node *left;  // Pointer to this node's left child.
+    struct bst_node *right; // Pointer to this node's right child.
+};
 
 /** 
  * @brief Function pointer for comparison of two items.
