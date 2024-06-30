@@ -121,4 +121,19 @@ void preorder_traversal(bst_node_t *root, print_function print_func);
  */
 void postorder_traversal(bst_node_t *root, print_function print_func);
 
+/**
+ * @brief Returns the data for all nodes contained within a BST, sorted "inorder".
+ * 
+ * @param root The root of the BST.
+ * @param size A pointer to the size of the resulting array.
+ * @returns A pointer to the data corresponding to the first node.
+ */
+void** get_all_data_inorder(bst_node_t *root, int *size);
+
+/**
+ * @brief Counts the number of nodes currently contained within a BST.
+ * @returns The total number of nodes.
+ */
+int get_number_of_nodes(bst_node_t *root);
+
 #endif

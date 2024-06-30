@@ -105,6 +105,34 @@ bst_node_t* delete_node(bst_node_t *root, void* data, compare_function compare_f
     return root;
 }
 
+int get_number_of_nodes(bst_node_t *root) {
+    if (root == NULL)
+        return 0;
+    return 1 + get_number_of_nodes(root->left) + get_number_of_nodes(root->right);
+}
+
+static void collect_data_inorder(bst_node_t *root, void **array, int *index) {
+    if (root != NULL) {
+        collect_data_inorder(root->left, array, index);
+        array[(*index)++] = root->data;
+        collect_data_inorder(root->right, array, index);
+    }
+}
+
+void** get_all_data_inorder(bst_node_t *root, int *size) {
+    *size = get_number_of_nodes(root);
+    void **array = malloc(*size * sizeof(void *));
+    if (array == NULL) {
+        *size = 0;
+        return NULL;
+    }
+    
+    int index = 0;
+    collect_data_inorder(root, array, &index);
+    
+    return array;
+}
+
 void free_tree(bst_node_t *root, free_function free_func) {
     if (root != NULL) {
         free_tree(root->left, free_func);
