@@ -119,6 +119,64 @@ void test_delete_items() {
     free_tree(root, free_item);
 }
 
+void test_get_number_of_nodes() {
+    bst_node_t *root = NULL;
+    
+    int expected_count = 0;
+    int count = get_number_of_nodes(root);
+    CU_ASSERT_EQUAL(count, expected_count);
+
+    item_t *itemFirst = create_item(0, "first");
+    expected_count = expected_count + 1;
+    item_t *itemSecond = create_item(1, "second");
+    expected_count = expected_count + 1;
+    item_t *itemThird = create_item(2, "third");
+    expected_count = expected_count + 1;
+
+    root = insert_node(root, itemFirst, compare_item);
+    root = insert_node(root, itemSecond, compare_item);
+    root = insert_node(root, itemThird, compare_item);
+    
+    count = get_number_of_nodes(root);
+    CU_ASSERT_EQUAL(count, expected_count);
+
+    free_tree(root, free_item);
+}
+
+void test_get_all_node_data() {
+    bst_node_t *root = NULL;
+    
+    int size;
+    void **data_array = get_all_data_inorder(root, &size);
+    CU_ASSERT_EQUAL(size, 0);
+    free(data_array);
+
+    int expected_ids[] = {0, 1, 2};
+    const char *expected_labels[] = {"first", "second", "third"};
+    
+    item_t *itemFirst = create_item(0, "first");
+    item_t *itemSecond = create_item(1, "second");
+    item_t *itemThird = create_item(2, "third");
+
+    root = insert_node(root, itemFirst, compare_item);
+    root = insert_node(root, itemSecond, compare_item);
+    root = insert_node(root, itemThird, compare_item);
+    
+    data_array = get_all_data_inorder(root, &size);
+    CU_ASSERT_EQUAL(size, 3);
+
+    if (data_array != NULL) {
+        for (int i = 0; i < size; i++) {
+            item_t *item = (item_t*)data_array[i];
+            CU_ASSERT_EQUAL(item->id, expected_ids[i]);
+            CU_ASSERT_STRING_EQUAL(item->label, expected_labels[i]);
+        }
+        free(data_array);
+    }
+
+    free_tree(root, free_item);
+}
+
 int main()
 {
     if (CUE_SUCCESS != CU_initialize_registry())
@@ -127,14 +185,15 @@ int main()
     CU_pSuite insertion = CU_add_suite("Insertion", NULL, NULL);
     CU_pSuite search = CU_add_suite("Search", NULL, NULL);
     CU_pSuite deletion = CU_add_suite("Deletion", NULL, NULL);
+    CU_pSuite utility = CU_add_suite("Utility", NULL, NULL);
     
     CU_add_test(insertion, "Insert single item", test_insert_and_search_single_item);
+    CU_add_test(utility, "Get number of nodes", test_get_number_of_nodes);
     CU_add_test(insertion, "Insert duplicate IDs", test_insert_duplicate_ids);
-    
     CU_add_test(search, "Search empty tree", test_search_empty_tree);
     CU_add_test(search, "Search nonexisting item", test_search_nonexisting_item);
-
     CU_add_test(deletion, "Delete item", test_delete_items);
+    CU_add_test(search, "Get all node data", test_get_all_node_data);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
